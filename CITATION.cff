@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "flow_matching_policy: Continuous-Control & Visuomotor Action Generation with Flow Matching"
+authors:
+  - alias: "HamzA-1729"
+repository-code: "https://github.com/HamzA-1729/flow_matching_policy"
+license: MIT
+keywords:
+  - flow-matching
+  - diffusion-policy
+  - robotics
+  - continuous-control
+  - visuomotor
+  - pytorch
