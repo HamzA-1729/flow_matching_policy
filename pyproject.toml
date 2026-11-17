@@ -1,0 +1,55 @@
+[project]
+name = "flow-matching-policy"
+version = "0.1.0"
+description = "Continuous-control and visuomotor action-chunk generation using Optimal Transport Flow Matching vs. DDPM/DDIM and MSE Behavioral Cloning with a DiT-1D backbone."
+readme = "README.md"
+authors = [
+    { name = "Hamza Sajid", email = "hamzasajid.1729@gmail.com" }
+]
+requires-python = ">=3.12"
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["flow-matching", "diffusion-policy", "robotics", "continuous-control", "visuomotor", "dit", "pytorch"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "matplotlib>=3.11.2",
+    "numpy>=2.5.4",
+    "pyyaml>=6.0.3",
+    "torch>=2.14.1",
+    "tqdm>=4.70.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/HamzA-1729/flow_matching_policy"
+Issues = "https://github.com/HamzA-1729/flow_matching_policy/issues"
+
+[build-system]
+requires = ["uv_build>=0.12.17,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.0.0",
+    "pytest>=9.2.0",
+    "ruff>=0.17.3",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+markers = [
+    "slow: marks tests as slow (e.g. 300-episode expert gate)",
+]
