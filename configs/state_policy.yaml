@@ -1,0 +1,44 @@
+obs_mode: state
+
+env:
+  max_episode_steps: 120
+  max_step: 0.06
+  tau_lat: 0.10
+  image_size: 64
+
+data:
+  train_episodes: 200
+  val_episodes: 40
+  action_noise_std: 0.01
+  obs_horizon: 2
+  pred_horizon: 16
+  action_horizon: 8
+
+model:
+  hidden_dim: 128
+  depth: 4
+  num_heads: 4
+  mlp_ratio: 4.0
+  dropout: 0.1
+
+ddpm:
+  timesteps: 100
+  schedule: cosine
+  cosine_s: 0.008
+
+train:
+  batch_size: 64
+  total_steps: 10000
+  lr: 3.0e-4
+  weight_decay: 1.0e-4
+  warmup_steps: 500
+  ema_decay: 0.995
+  grad_clip: 1.0
+
+eval:
+  val_episodes: 100
+  test_episodes: 300
+  entropy_states: 30
+  entropy_rollouts_per_state: 10
+  nfe_sweep: [1, 2, 4, 8, 16]
+  action_horizon_ablation: [1, 4, 8, 16]
