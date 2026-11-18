@@ -54,6 +54,29 @@ Predicted Velocity / Noise / Action: (B, 16, 2)
 
 ---
 
+## 📊 Empirical Results & Diagnostics (`obs_mode: state`, 300 Held-Out Test Episodes × 3 Seeds `{42, 1337, 2024}`)
+
+| Method | NFE | Success Rate (Mean ± Std) | Mode Entropy $\bar{H}$ (bits) | `none` Rate |
+| :--- | :---: | :---: | :---: | :---: |
+| **MSE BC (Deterministic)** | 1 | **`0.628 ± 0.044`** | `0.000 ± 0.000` | `0.000` |
+| **Flow Matching (Euler)** | 1 | `0.381 ± 0.068` | `0.491 ± 0.065` | `0.003` |
+| **Flow Matching (Euler)** | 2 | **`0.483 ± 0.034`** | `0.796 ± 0.009` | `0.000` |
+| **Flow Matching (Euler)** | 4 | `0.417 ± 0.021` | `0.836 ± 0.010` | `0.000` |
+| **Flow Matching (Euler)** | 8 | `0.429 ± 0.057` | `0.851 ± 0.002` | `0.000` |
+| **Flow Matching (Euler)** | 16 | `0.416 ± 0.013` | **`0.852 ± 0.003`** | `0.000` |
+| **DDPM / DDIM ($\eta=0$)** | 1 | `0.001 ± 0.002` | `0.473 ± 0.016` | `0.653` |
+| **DDPM / DDIM ($\eta=0$)** | 2 | `0.002 ± 0.003` | `0.403 ± 0.111` | `0.188` |
+| **DDPM / DDIM ($\eta=0$)** | 4 | `0.397 ± 0.023` | `0.766 ± 0.030` | `0.000` |
+| **DDPM / DDIM ($\eta=0$)** | 8 | `0.362 ± 0.039` | `0.825 ± 0.006` | `0.000` |
+| **DDPM / DDIM ($\eta=0$)** | 16 | `0.346 ± 0.052` | `0.851 ± 0.011` | `0.000` |
+
+### Key Findings
+* **Multimodal Coverage ($\bar{H}$):** MSE BC is strictly deterministic (`0.000` bits), whereas Flow Matching (`0.852` bits at NFE=16) and DDIM (`0.851` bits at NFE=16) capture both left and right detour modes from identical initial states.
+* **Low-NFE Stability (Flow vs. DDIM):** At NFE=1–2, DDIM suffers severe $\hat{x}_0$ error amplification ($1/\sqrt{\bar{\alpha}_{T-1}} \approx 2000\times$), collapsing to `0.001–0.002` success (`none = 0.653 / 0.188`). Flow Matching remains stable at NFE=2 (`0.483` success, `0.796` bits, `0.000` `none` rate).
+* **Receding-Horizon Symmetry Breaking:** Because `action_horizon=8` replans mid-episode, MSE BC breaks symmetry via slight initial drift and avoids compounding stochasticity, achieving higher raw success (`0.628`) at the cost of zero mode diversity (`0.000` bits).
+
+---
+
 ## 📁 Repository Structure
 
 ```text
